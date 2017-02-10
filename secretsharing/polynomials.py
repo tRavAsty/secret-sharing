@@ -77,3 +77,48 @@ def modular_lagrange_interpolation(x, points, prime):
         # multiply the current y & the evaluated polynomial & add it to f(x)
         f_x = (prime + f_x + (y_values[i] * lagrange_polynomial)) % prime
     return f_x
+
+class Polynomial(object):
+    def __init__(self, coefficient, modulus, peers):
+        self.coefficient = coefficient
+        self.modulus = modulus
+        self.k = len(coefficient)
+        self.peers = peers
+        self.sv = 0
+
+    def __repr__(self):
+        return str(self.coefficient)
+    '''
+    def multiply(self, multiplicator):
+        for i in range(self.n):
+            self.coefficient[i] = self.coefficient[i] * multiplicator % self.modulus
+    
+    '''
+    def get_mul_value(self,multiplicator):
+        v = self.coefficient[:]
+        for i in range(self.k):
+            v[i] = v[i]*multiplicator % self.modulus
+        return v
+
+    def value(self, x):
+        v = 0
+        for i in range(self.k):
+            v += ((x ** i) * self.coefficient[i]) % self.modulus
+        return v
+
+    def secret_value(self):
+        v = (self.value(0) ** (self.peers-1)) % self.modulus
+        self.sv = v
+        return v
+
+    def conference_key_construct(self, shareholders, pub_inf = None):
+        r = len(shareholders)
+        if r <= self.k:
+            return "errors"
+        if pub_inf == None:
+            pub_inf = range(1, self.peers+1)
+        c = 1
+        for i in shareholders:
+            c *= self.value(pub_inf[i]) % self.modulus
+        conference_key = (c * (self.value(0) ** (self.peers - r))) % self.modulus
+        return conference_key

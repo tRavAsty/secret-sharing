@@ -50,3 +50,6 @@ def get_large_enough_prime(batch):
         if len(numbers_greater_than_prime) == 0:
             return prime
     return None
+
+def get_modulus():
+    return 3233# hard code, need to be fixed
