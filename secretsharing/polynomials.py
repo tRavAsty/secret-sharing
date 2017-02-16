@@ -27,6 +27,7 @@ def mod_inverse(k, prime):
     return (prime + r) % prime
 
 
+
 def random_polynomial(degree, intercept, upper_bound):
     """ Generates a random polynomial with positive coefficients.
     """
@@ -82,7 +83,7 @@ class Polynomial(object):
     def __init__(self, coefficient, modulus, peers):
         self.coefficient = coefficient
         self.modulus = modulus
-        self.k = len(coefficient)
+        self.k = len(coefficient) - 1
         self.peers = peers
         self.sv = 0
 
@@ -94,16 +95,17 @@ class Polynomial(object):
             self.coefficient[i] = self.coefficient[i] * multiplicator % self.modulus
     
     '''
-    def get_mul_value(self,multiplicator):
+    def get_mul_value(self,multiplicator):# return value of the value of coefficient multiply something mod modulo
         v = self.coefficient[:]
-        for i in range(self.k):
-            v[i] = v[i]*multiplicator % self.modulus
+        for i in range(self.k+1):
+            v[i] = (v[i]*multiplicator) % self.modulus
         return v
 
     def value(self, x):
         v = 0
-        for i in range(self.k):
+        for i in range(self.k+1):
             v += ((x ** i) * self.coefficient[i]) % self.modulus
+            v = v % self.modulus
         return v
 
     def secret_value(self):
@@ -122,3 +124,4 @@ class Polynomial(object):
             c *= self.value(pub_inf[i]) % self.modulus
         conference_key = (c * (self.value(0) ** (self.peers - r))) % self.modulus
         return conference_key
+
