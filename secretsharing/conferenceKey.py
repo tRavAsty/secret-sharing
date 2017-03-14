@@ -38,6 +38,7 @@ def secret_reconstruct(shareholders, values, n,k, modulus, pub_inf = None):
 
 
 Shareholders = share_generation(3,4,4)
+
 print Shareholders
 v = []
 for s in Shareholders:

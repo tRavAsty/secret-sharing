@@ -125,3 +125,5 @@ class Polynomial(object):
         conference_key = (c * (self.value(0) ** (self.peers - r))) % self.modulus
         return conference_key
 
+
+
