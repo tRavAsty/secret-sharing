@@ -54,6 +54,5 @@ def get_large_enough_prime(batch):
 def get_modulus():
     return 2773# hard code, need to be fixed,need to find two safe prime, here is result of 47*59
 
-
 def eular(x):
     return 2668
