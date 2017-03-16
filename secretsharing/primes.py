@@ -6,7 +6,7 @@
     :copyright: (c) 2014 by Halfmoon Labs
     :license: MIT, see LICENSE for more details.
 """
-
+import gensafeprime
 
 def calculate_mersenne_primes():
     """ Returns all the mersenne primes with less than 500 digits.
@@ -50,6 +50,43 @@ def get_large_enough_prime(batch):
         if len(numbers_greater_than_prime) == 0:
             return prime
     return None
+
+class safePrime(object):
+
+    def __init__(self,l = 512):
+        if l <= 0:
+            print "error"
+            raise Exception()
+        elif l<16:
+            self._p = 47
+            self._q = 59
+            self.n = self._p*self._q
+            self._phi = (self._p-1)*(self._q-1)
+        else:
+            self._p = gensafeprime.generate(l)
+            self._q = gensafeprime.generate(l)
+            self.n = self._p*self._q
+            self._phi = (self._q-1) * (self._p-1)
+
+    def get_modulus(self):
+        return self.n# hard code, need to be fixed
+
+    def get_eular(self):
+        return self._phi
+
+    def sqaure_and_multiply(self, base, index):
+        m = bin(index)
+        m = m[2:]
+        if m[len(m)-1] == '1':
+            B = base
+        else:
+            B = 1
+        A = base
+        for i in range(len(m)-2,-1,-1):
+            A = A*A % self.n
+            if m[i] == '1':
+                B = B*A % self.n
+        return B
 
 def get_modulus():
     return 2773# hard code, need to be fixed,need to find two safe prime, here is result of 47*59

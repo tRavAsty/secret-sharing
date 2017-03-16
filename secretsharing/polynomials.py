@@ -108,6 +108,16 @@ class Polynomial(object):
             v = v % self.modulus
         return v
 
+
+
+    def get_modulus(self):
+        return self.modulus
+
+class share_Polynomial(Polynomial):
+    def __init__(self, coefficient, modulus, peers, identity):
+        Polynomial.__init__(self, coefficient, modulus, peers)
+        self.identity = identity
+
     def secret_value(self):
         v = (self.value(0) ** (self.peers-1)) % self.modulus
         self.sv = v
@@ -121,7 +131,9 @@ class Polynomial(object):
             pub_inf = range(1, self.peers+1)
         c = 1
         for i in shareholders:
-            c *= self.value(pub_inf[i]) % self.modulus
+            if i != self.identity:
+                c *= self.value(pub_inf[i]) % self.modulus
         conference_key = (c * (self.value(0) ** (self.peers - r))) % self.modulus
         return conference_key
+
 
