@@ -1,6 +1,6 @@
 
 from polynomials import random_polynomial, mod_inverse, Polynomial, modular_lagrange_interpolation, share_Polynomial
-from primes import get_modulus, eular, safePrime
+from primes import safePrime
 from utilitybelt import secure_randint as randint
 
 def share_generation(k, m, n, l = None,pub_inf = None):
