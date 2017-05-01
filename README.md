@@ -1,3 +1,31 @@
+Conference Key Constrution
+=============
+#### Splitting into shareholders
+    
+    >>> from secretsharing import conferenceKey
+    >>> A, shareholders = conferenceKey.share_generation(3, 4, 4, 16) 
+    >>> A
+    >>>[1517141389, 635182453, 524693228, 3001449852]
+
+    >>>shareholders
+    >>>[[405405764L, 2986928440L, 1555085675L, 2683010161L], [1177434373L, 1662914492L, 1555645294L, 2047286792L], [2209032879L, 2932824304L, 1219761147L, 2514560514L], [1714642752L, 807232125L, 809625417L, 1082038406L]]
+
+
+#### Constructing group key
+    >>> Shareholders[0].conference_key_construct(range(4))
+    >>> 2018829063L
+    >>> Shareholders[1].conference_key_construct(range(4))
+    >>> 2018829063L
+
+#### Recovering secret
+    >>> v = []
+    >>> for s in Shareholders:
+            v.append(s.secret_value())
+    >>> mod = Shareholders[0].get_modulus()
+    >>> conferenceKey.secret_reconstruct(range(4), v, 4, 3, mod)
+    >>> 849991194L
+    >>> A[0]**4 % mod
+    >>> 849991194L
 Secret Sharing
 =============
 
